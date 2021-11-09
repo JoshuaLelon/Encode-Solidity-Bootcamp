@@ -13,5 +13,16 @@
 // 9. Next, create a modifier which only allows an owner to execute certain functions.
 // 10. Make your increase total supply function public , but add your modifier so that only the owner can execute it.
 // 11. The contract owner’s address should only be updateable in one place. Create a constructor and within the constructor, store the owner’s address.
-  
+
 // 12. It would be useful to broadcast a change in the total supply. Create an event that emits the new value whenever the total supply changes. When the supply changes, emit this event.
+
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
+
+contract VolcanoCoin {
+    uint256 totalSupply = 10000;
+
+    function getTotalSupply() public view returns (uint256) {
+        return totalSupply;
+    }
+}
