@@ -7,22 +7,41 @@
 // 4. Create a contract called VolcanoCoin.
 // 5. Create a variable to hold the total supply of 10000.
 // 6. Make a public function that returns the total supply.
-// 7. Make a function that can increase the total supply. Inside the function, add 1000 tokens to the current total supply.
-// 8. We probably want users to be aware of functions in the contract for greater transparency, but to make them all public will create some security risks (e.g. we don’t want users to be able to change the total supply).
-// Initialise an address variable called owner .
+// 7. Make a function that can increase the total supply. Inside the function,
+//    add 1000 tokens to the current total supply.
+// 8. We probably want users to be aware of functions in the contract for greater transparency,
+//    but to make them all public will create some security risks (e.g. we don’t want users to be able to change the total supply).
+//    Initialise an address variable called owner .
 // 9. Next, create a modifier which only allows an owner to execute certain functions.
-// 10. Make your increase total supply function public , but add your modifier so that only the owner can execute it.
-// 11. The contract owner’s address should only be updateable in one place. Create a constructor and within the constructor, store the owner’s address.
+// 10. Make your increase total supply function public , but add your modifier so that only the owner
+//     can execute it.
+// 11. The contract owner’s address should only be updateable in one place. Create a constructor and
+//     within the constructor, store the owner’s address.
 
-// 12. It would be useful to broadcast a change in the total supply. Create an event that emits the new value whenever the total supply changes. When the supply changes, emit this event.
+// 12. It would be useful to broadcast a change in the total supply. Create an event that emits the
+//     new value whenever the total supply changes. When the supply changes, emit this event.
 
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
 contract VolcanoCoin {
     uint256 totalSupply = 10000;
+    address owner;
+
+    event SupplyIncrease();
+
+    modifier requireOwnership() {}
+
+    constructor(address _owner) {
+        owner = _owner;
+    }
 
     function getTotalSupply() public view returns (uint256) {
         return totalSupply;
+    }
+
+    function increaseSupply() public requireOwnership {
+        totalSupply += 1000;
+        emit SupplyIncrease;
     }
 }
