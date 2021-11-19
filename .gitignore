@@ -1,2 +1,5 @@
 homework-5/node_modules/
 homework-5/package-lock.json
+homework-5/artifacts/
+homework-5/cache/
+homework-5/.env
