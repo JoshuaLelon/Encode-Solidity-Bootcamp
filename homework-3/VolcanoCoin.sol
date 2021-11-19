@@ -30,7 +30,10 @@ contract VolcanoCoin {
 
     event SupplyIncrease();
 
-    modifier requireOwnership() {}
+    modifier requireOwnership() {
+        require(transaction.owner == owner);
+        _;
+    }
 
     constructor(address _owner) {
         owner = _owner;
