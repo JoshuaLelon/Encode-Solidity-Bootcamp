@@ -17,3 +17,27 @@ describe("Greeter", function () {
     expect(await greeter.greet()).to.equal("Hola, mundo!");
   });
 });
+
+describe("VolcanoCoin", function () {
+  it("Should be able to send Ether", async function () {
+    const VolcanoCoin = await ethers.getContractFactory("VolcanoCoin");
+    const [owner, addr1] = await ethers.getSigners();
+    const volcanoCoin = await VolcanoCoin.deploy(owner.address);
+    await volcanoCoin.deployed();
+
+    // Test 1: does it initialize with the initializer owning MAX_SUPPLY coins?
+
+    expect(await volcanoCoin.getTotalSupply()).to.equal(10000);
+    expect(await volcanoCoin.getBalance(owner.address)).to.equal(10000);
+
+    // Test 2: can I send coins to another user?
+
+    const setGreetingTx = await volcanoCoin.transfer(100, addr1.address);
+
+    // wait until the transaction is mined
+    await setGreetingTx.wait();
+
+    expect(await volcanoCoin.getBalance(owner.address)).to.equal(9900);
+    expect(await volcanoCoin.getBalance(addr1.address)).to.equal(100);
+  });
+});
