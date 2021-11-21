@@ -28,18 +28,18 @@ describe("VolcanoCoin", function () {
     // Test 1: does it initialize with the initializer owning MAX_SUPPLY coins?
 
     expect(await volcanoCoin.totalSupply()).to.equal(10000);
-    expect(await volcanoCoin.getBalance(owner.address)).to.equal(10000);
-    expect(await volcanoCoin.getBalance(addr1.address)).to.equal(0);
+    expect(await volcanoCoin.balanceOf(owner.address)).to.equal(10000);
+    expect(await volcanoCoin.balanceOf(addr1.address)).to.equal(0);
 
     // Test 2: can I send coins to another user?
-    
+
     // const setGreetingTx = await volcanoCoin.transfer(100, addr1.address);
     const setGreetingTx = await volcanoCoin.transfer(1000, addr1.address);
 
     // wait until the transaction is mined
     await setGreetingTx.wait();
 
-    expect(await volcanoCoin.getBalance(owner.address)).to.equal(9900);
-    expect(await volcanoCoin.getBalance(addr1.address)).to.equal(100);
+    expect(await volcanoCoin.balanceOf(owner.address)).to.equal(9900);
+    expect(await volcanoCoin.balanceOf(addr1.address)).to.equal(100);
   });
 });
