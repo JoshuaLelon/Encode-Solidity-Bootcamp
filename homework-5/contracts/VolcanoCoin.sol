@@ -1,43 +1,38 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-contract VolcanoCoin {
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract VolcanoCoin is ERC20("VolcanoToken", "VCNO"), Ownable {
     struct Payment {
         uint256 transferAmount;
         address recipient;
     }
 
-    uint256 totalSupply = 10000;
-    address owner;
+    uint256 private _totalSupply = 10000;
     mapping(address => uint256) balance;
     mapping(address => Payment[]) payments;
 
     event SupplyIncrease(uint256 newSupply);
-    event Transfer(uint256 amount, address recipient);
 
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Not owner");
-        _;
+    constructor(address owner) {
+        balance[owner] = _totalSupply;
     }
 
-    constructor(address _owner) {
-        owner = _owner;
-        balance[owner] = totalSupply;
-    }
+    // function transfer(uint256 amount, address recipient) public payable {
+    //     balance[msg.sender] -= amount;
+    //     balance[recipient] += amount;
+    //     emit Transfer(amount, recipient);
+    // }
 
-    function transfer(uint256 amount, address recipient) public payable {
-        balance[msg.sender] -= amount;
-        balance[recipient] += amount;
-        emit Transfer(amount, recipient);
-    }
-
-    function getTotalSupply() public view returns (uint256) {
-        return totalSupply;
+    function totalSupply() public view override returns (uint256) {
+        return _totalSupply;
     }
 
     function increaseSupply() public onlyOwner {
-        totalSupply += 1000;
-        emit SupplyIncrease(totalSupply);
+        _totalSupply += 1000;
+        emit SupplyIncrease(_totalSupply);
     }
 
     function getBalance(address user) public view returns (uint256) {

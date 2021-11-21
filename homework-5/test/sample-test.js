@@ -1,22 +1,22 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+// describe("Greeter", function () {
+//   it("Should return the new greeting once it's changed", async function () {
+//     const Greeter = await ethers.getContractFactory("Greeter");
+//     const greeter = await Greeter.deploy("Hello, world!");
+//     await greeter.deployed();
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+//     expect(await greeter.greet()).to.equal("Hello, world!");
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+//     const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+//     // wait until the transaction is mined
+//     await setGreetingTx.wait();
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
-  });
-});
+//     expect(await greeter.greet()).to.equal("Hola, mundo!");
+//   });
+// });
 
 describe("VolcanoCoin", function () {
   it("Should be able to send Ether", async function () {
@@ -27,12 +27,14 @@ describe("VolcanoCoin", function () {
 
     // Test 1: does it initialize with the initializer owning MAX_SUPPLY coins?
 
-    expect(await volcanoCoin.getTotalSupply()).to.equal(10000);
+    expect(await volcanoCoin.totalSupply()).to.equal(10000);
     expect(await volcanoCoin.getBalance(owner.address)).to.equal(10000);
+    expect(await volcanoCoin.getBalance(addr1.address)).to.equal(0);
 
     // Test 2: can I send coins to another user?
-
-    const setGreetingTx = await volcanoCoin.transfer(100, addr1.address);
+    
+    // const setGreetingTx = await volcanoCoin.transfer(100, addr1.address);
+    const setGreetingTx = await volcanoCoin.transfer(1000, addr1.address);
 
     // wait until the transaction is mined
     await setGreetingTx.wait();
