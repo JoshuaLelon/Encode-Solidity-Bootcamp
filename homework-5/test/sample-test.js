@@ -34,12 +34,12 @@ describe("VolcanoCoin", function () {
     // Test 2: can I send coins to another user?
 
     // const setGreetingTx = await volcanoCoin.transfer(100, addr1.address);
-    const setGreetingTx = await volcanoCoin.transfer(1000, addr1.address);
+    const setGreetingTx = await volcanoCoin.transfer(addr1.address, 1000);
 
     // wait until the transaction is mined
     await setGreetingTx.wait();
 
-    expect(await volcanoCoin.balanceOf(owner.address)).to.equal(9900);
-    expect(await volcanoCoin.balanceOf(addr1.address)).to.equal(100);
+    expect(await volcanoCoin.balanceOf(owner.address)).to.equal(9000);
+    expect(await volcanoCoin.balanceOf(addr1.address)).to.equal(1000);
   });
 });

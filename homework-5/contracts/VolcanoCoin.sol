@@ -19,9 +19,14 @@ contract VolcanoCoin is ERC20("VolcanoToken", "VCNO"), Ownable {
         _mint(owner, _totalSupply);
     }
 
-    function transfer(uint256 amount, address recipient) public payable {
+    function transfer(address recipient, uint256 amount)
+        public
+        override
+        returns (bool)
+    {
         super.transfer(recipient, amount);
         logPayment(msg.sender, recipient, amount);
+        return true;
     }
 
     function logPayment(
