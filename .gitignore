@@ -1,13 +1,18 @@
 homework-5/node_modules/
 homework-5/package-lock.json
 homework-5/artifacts/
+homework-5/coverage/
 homework-5/cache/
 homework-5/.env
 homework-5/secret.json
+homework-5/coverage.json
 
 homework-6/node_modules/
 homework-6/package-lock.json
 homework-6/artifacts/
+homework-6/coverage/
 homework-6/cache/
 homework-6/.env
 homework-6/secret.json
+homework-6/coverage.json
+
