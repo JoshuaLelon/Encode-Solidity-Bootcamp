@@ -4,6 +4,8 @@ require("hardhat-gas-reporter");
 require("@nomiclabs/hardhat-etherscan");
 require('solidity-coverage');
 
+let secret = require('./secret.json');
+
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
@@ -47,5 +49,11 @@ module.exports = {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: "YOUR_ETHERSCAN_API_KEY"  // CONFIG ME so that hardhat-etherscan works
+  },
+  networks: { 
+    ropsten: { 
+      url: secret.url, 
+      accounts: [secret.key] 
+    } 
   }
 };
