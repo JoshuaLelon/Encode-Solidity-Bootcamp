@@ -16,3 +16,5 @@ homework-6/.env
 homework-6/secret.json
 homework-6/coverage.json
 
+.DS_Store
+sandbox/package-lock.json
