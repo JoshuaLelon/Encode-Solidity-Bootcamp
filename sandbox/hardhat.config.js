@@ -1,14 +1,19 @@
-require("@nomiclabs/hardhat-waffle");
+// hardhat.config.js
+require("dotenv/config")
+require("@nomiclabs/hardhat-solhint")
+// require("@nomiclabs/hardhat-solpp")
+require("@tenderly/hardhat-tenderly")
+require("@nomiclabs/hardhat-etherscan");
+require("hardhat-abi-exporter")
+require("hardhat-deploy")
+require("hardhat-deploy-ethers")
+require("hardhat-gas-reporter")
+require("hardhat-spdx-license-identifier")
+require("hardhat-watcher")
+require("solidity-coverage")
 
-// Go to https://www.alchemyapi.io, sign up, create
-// a new App in its dashboard, and replace "KEY" with its key
-const ALCHEMY_API_KEY = "KEY";
+require('dotenv').config({path:__dirname+'/.env'})
 
-// Replace this private key with your Ropsten account private key
-// To export your private key from Metamask, open Metamask and
-// go to Account Details > Export Private Key
-// Be aware of NEVER putting real Ether into testing accounts
-const ROPSTEN_PRIVATE_KEY = "YOUR ROPSTEN PRIVATE KEY";
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -20,18 +25,43 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   }
 });
 
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
+  abiExporter: {
+    path: "./build/abi",
+    //clear: true,
+    flat: true,
+    // only: [],
+    // except: []
+  },
   solidity: "0.8.4",
   networks: {
-    ropsten: {
-      url: `https://eth-ropsten.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
-      accounts: [`${ROPSTEN_PRIVATE_KEY}`]
+    rinkeby: {
+      url: `https://speedy-nodes-nyc.moralis.io/${process.env.MORALIS_KEY}/eth/rinkeby`,
+      accounts: [`${process.env.TEST_PRIVATE_KEY}`]
     }
-  }
+  },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
+  gasReporter: {
+    enabled: process.env.REPORT_GAS ? true : false,
+    currency: "USD",
+    coinmarketcap: process.env.COINMARKETCAP_API_KEY,
+    excludeContracts: ["contracts/mocks/", "contracts/libraries/"],
+  },
+  // preprocess: {
+  //   eachLine: removeConsoleLog(bre => bre.network.name !== "hardhat" && bre.network.name !== "localhost"),
+  // },
+  watcher: {
+    compile: {
+      tasks: ["compile"],
+      files: ["./contracts"],
+      verbose: true,
+    },
+  },
 };
